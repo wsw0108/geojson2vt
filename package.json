@@ -1,0 +1,53 @@
+{
+  "name": "geojson2vt",
+  "version": "0.1.0",
+  "description": "Convert geojson to tile at specified z/x/y.",
+  "homepage": "https://github.com/wsw0108/geojson2vt",
+  "keywords": [
+    "spatial",
+    "geojson",
+    "tiles",
+    "geometry"
+  ],
+  "author": "wsw0108",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wsw0108/geojson2vt.git"
+  },
+  "main": "src/index.js",
+  "jsdelivr": "geojson2vt-dev.js",
+  "unpkg": "geojson2vt-dev.js",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "browserify": "^14.4.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.5.0",
+    "eslint-config-mourner": "^2.0.1",
+    "faucet": "0.0.1",
+    "nyc": "^11.1.0",
+    "tape": "^4.8.0",
+    "uglify-js": "^3.0.28",
+    "watchify": "^3.9.0"
+  },
+  "eslintConfig": {
+    "extends": "mourner",
+    "globals": {
+      "topojson": true
+    }
+  },
+  "license": "ISC",
+  "scripts": {
+    "test": "eslint src/*.js test/*.js && tape test/test-*.js | faucet",
+    "cov": "nyc --reporter=lcov --reporter=text-summary tape test/test*.js",
+    "coveralls": "npm run cov && coveralls < ./coverage/lcov.info",
+    "build-min": "browserify src/index.js -s geojson2vt | uglifyjs -c -m -o geojson2vt.js",
+    "build-dev": "browserify -d src/index.js -s geojson2vt -o geojson2vt-dev.js",
+    "watch": "watchify -v -d src/index.js -s geojson2vt -o geojson2vt-dev.js",
+    "prepare": "npm run build-dev && npm run build-min"
+  },
+  "files": [
+    "src",
+    "geojson2vt.js",
+    "geojson2vt-dev.js"
+  ]
+}
